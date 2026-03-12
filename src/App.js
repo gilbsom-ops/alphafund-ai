@@ -28,9 +28,6 @@ async function fetchRealData(ticker) {
 
 function buildSummary({ meta, ticker }) {
   const brl = (v) => (v != null && !isNaN(v) && v > 0) ? `R$ ${Number(v).toFixed(2)}` : null;
-  const pct = (v) => (v != null && !isNaN(v)) ? `${Number(v).toFixed(2)}%` : null;
-
-  const price       = meta.regularMarketPrice;
   const prevClose   = meta.previousClose || meta.chartPreviousClose;
   const changeVal   = price && prevClose ? price - prevClose : null;
   const changePct   = price && prevClose ? ((price - prevClose) / prevClose) * 100 : null;
@@ -38,7 +35,6 @@ function buildSummary({ meta, ticker }) {
   const high52      = meta.fiftyTwoWeekHigh;
   const mktCap      = meta.marketCap;
   const currency    = meta.currency || "BRL";
-  const symbol      = meta.symbol || ticker;
   const name        = meta.longName || meta.shortName || ticker;
 
   const fmt = currency === "BRL" ? brl : (v) => (v != null && !isNaN(v)) ? `$ ${Number(v).toFixed(2)}` : null;
