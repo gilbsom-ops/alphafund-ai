@@ -27,7 +27,10 @@ async function fetchRealData(ticker) {
 }
 
 function buildSummary({ meta, ticker }) {
-  const brl = (v) => (v != null && !isNaN(v) && v > 0) ? `R$ ${Number(v).toFixed(2)}` : null;
+  const brl = (v) => (v != null && !isNaN(v) && v > 0
+  const price       = meta.regularMarketPrice;
+  const symbol      = meta.symbol || ticker;
+) ? `R$ ${Number(v).toFixed(2)}` : null;
   const prevClose   = meta.previousClose || meta.chartPreviousClose;
   const changeVal   = price && prevClose ? price - prevClose : null;
   const changePct   = price && prevClose ? ((price - prevClose) / prevClose) * 100 : null;
