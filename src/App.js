@@ -83,7 +83,7 @@ Com base nesses dados E no seu conhecimento sobre a empresa, complete a análise
 REGRAS:
 - Mantenha o preço atual como ${rd.preco_atual}
 - NÃO emita recomendação de compra, venda ou manutenção
-- Para indicadores que você não tem dados confiáveis, use "Consulte o RI da empresa"
+- Para indicadores que você não tem dados precisos, use sua melhor estimativa baseada em dados públicos conhecidos. NUNCA use "Consulte o RI da empresa" como resposta — sempre forneça um valor estimado.
 - Seja descritivo, educacional e neutro
 
 Responda APENAS em JSON válido:
