@@ -38,10 +38,10 @@ function buildSummary({ meta, ticker }) {
     p_vp:           meta.priceToBook ? meta.priceToBook.toFixed(2) : "N/A",
     dividend_yield_atual: meta.dividendYield ? `${meta.dividendYield.toFixed(2)}%` : "N/A",
     roe:            "Ver análise IA",
-    ultimo_div_valor:     meta.dividendsData?.cashDividends?.[0]?.rate || "N/A",
-    ultimo_div_ex:        meta.dividendsData?.cashDividends?.[0]?.lastDateOnWith || "N/A",
-    ultimo_div_pagamento: meta.dividendsData?.cashDividends?.[0]?.paymentDate || "N/A",
-    historico_divs: "Consulte o RI da empresa",
+    ultimo_div_valor:     meta.dividendsData?.cashDividends?.sort((a,b) => new Date(b.paymentDate) - new Date(a.paymentDate))?.[0]?.rate?.toLocaleString('pt-BR', {style:'currency', currency:'BRL'}) || "N/A",
+    ultimo_div_ex:        meta.dividendsData?.cashDividends?.sort((a,b) => new Date(b.paymentDate) - new Date(a.paymentDate))?.[0]?.lastDateOnWith?.split("T")[0] || "N/A",
+    ultimo_div_pagamento: meta.dividendsData?.cashDividends?.sort((a,b) => new Date(b.paymentDate) - new Date(a.paymentDate))?.[0]?.paymentDate?.split("T")[0] || "N/A",
+    historico_divs:       meta.dividendsData?.cashDividends?.sort((a,b) => new Date(b.paymentDate) - new Date(a.paymentDate))?.slice(0,5)?.map(d => `R$ ${d.rate} (${d.paymentDate?.split("T")[0]})`)?.join(", ") || "N/A",
   };
 }
 
