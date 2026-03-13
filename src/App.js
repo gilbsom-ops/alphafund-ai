@@ -6,60 +6,41 @@ const GROQ_MODEL = "llama-3.3-70b-versatile";
 // ─── Fetch cotação real via Yahoo Finance (sem CORS) ──────────────────────
 // Usa um proxy público que contorna CORS para ambiente de desenvolvimento
 async function fetchRealData(ticker) {
-  const t = ticker.toUpperCase();
-  // Sufixo .SA para ações brasileiras no Yahoo Finance
-  const yTicker = t.endsWith(".SA") ? t : `${t}.SA`;
-
-  // Proxy CORS-free para Yahoo Finance
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${yTicker}?interval=1d&range=1d`;
-
-  const res = await fetch(url, {
-    headers: { "Accept": "application/json" }
-  });
-
-  if (!res.ok) throw new Error(`Ticker "${t}" não encontrado. Verifique se é um ticker da B3 válido (ex: PETR4, VALE3).`);
-
+  const t = ticker.toUpperCase().replace(".SA", "");
+  const BRAPI_TOKEN = process.env.REACT_APP_BRAPI_KEY;
+  
+  const url = `https://brapi.dev/api/quote/${t}?token=${BRAPI_TOKEN}&fundamental=true&dividends=true`;
+  
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Ticker "${t}" não encontrado na B3.`);
+  
   const json = await res.json();
-  const meta = json?.chart?.result?.[0]?.meta;
-  if (!meta) throw new Error(`Dados não disponíveis para "${t}". Tente outro ticker.`);
+  const q = json?.results?.[0];
+  if (!q) throw new Error(`Dados não disponíveis para "${t}".`);
 
-  return { meta, ticker: t, yTicker };
+  return { meta: q, ticker: t, yTicker: t };
 }
 
 function buildSummary({ meta, ticker }) {
   const brl = (v) => v != null && !isNaN(v) && v > 0 ? `R$ ${Number(v).toFixed(2)}` : null;
-  const price       = meta.regularMarketPrice;
-  const symbol      = meta.symbol || ticker;
-  const prevClose   = meta.previousClose || meta.chartPreviousClose;
-  const changeVal   = price && prevClose ? price - prevClose : null;
-  const changePct   = price && prevClose ? ((price - prevClose) / prevClose) * 100 : null;
-  const low52       = meta.fiftyTwoWeekLow;
-  const high52      = meta.fiftyTwoWeekHigh;
-  const mktCap      = meta.marketCap;
-  const currency    = meta.currency || "BRL";
-  const name        = meta.longName || meta.shortName || ticker;
-
-  const fmt = currency === "BRL" ? brl : (v) => (v != null && !isNaN(v)) ? `$ ${Number(v).toFixed(2)}` : null;
-
   return {
-    preco_atual:   fmt(price) || "N/A",
-    variacao_dia:  changePct != null ? `${changePct >= 0 ? "+" : ""}${changePct.toFixed(2)}%` : "N/A",
-    variacao_val:  changeVal != null ? `${changeVal >= 0 ? "+" : ""}R$ ${Math.abs(changeVal).toFixed(2)}` : "",
-    fechamento_ant: fmt(prevClose) || "N/A",
-    market_cap:    mktCap ? `R$ ${(mktCap / 1e9).toFixed(1)}B` : "N/A",
-    min_52s:       fmt(low52)  || "N/A",
-    max_52s:       fmt(high52) || "N/A",
-    nome:          name,
-    currency,
-    changePositive: changePct != null ? changePct >= 0 : null,
-    // Estes serão preenchidos pela IA (Yahoo básico não traz fundamentals)
-    p_l: "Ver análise IA",
-    p_vp: "Ver análise IA",
-    dividend_yield_atual: "Ver análise IA",
-    roe: "Ver análise IA",
-    ultimo_div_valor: "N/A",
-    ultimo_div_ex: "N/A",
-    ultimo_div_pagamento: "N/A",
+    preco_atual:    brl(meta.regularMarketPrice) || "N/A",
+    variacao_dia:   meta.regularMarketChangePercent != null ? `${meta.regularMarketChangePercent >= 0 ? "+" : ""}${meta.regularMarketChangePercent.toFixed(2)}%` : "N/A",
+    variacao_val:   meta.regularMarketChange != null ? `${meta.regularMarketChange >= 0 ? "+" : ""}R$ ${Math.abs(meta.regularMarketChange).toFixed(2)}` : "",
+    fechamento_ant: brl(meta.regularMarketPreviousClose) || "N/A",
+    market_cap:     meta.marketCap ? `R$ ${(meta.marketCap / 1e9).toFixed(1)}B` : "N/A",
+    min_52s:        brl(meta.fiftyTwoWeekLow) || "N/A",
+    max_52s:        brl(meta.fiftyTwoWeekHigh) || "N/A",
+    nome:           meta.longName || meta.shortName || ticker,
+    currency:       meta.currency || "BRL",
+    changePositive: meta.regularMarketChangePercent != null ? meta.regularMarketChangePercent >= 0 : null,
+    p_l:            meta.priceEarnings ? meta.priceEarnings.toFixed(1) : "N/A",
+    p_vp:           meta.priceToBook ? meta.priceToBook.toFixed(2) : "N/A",
+    dividend_yield_atual: meta.dividendYield ? `${meta.dividendYield.toFixed(2)}%` : "N/A",
+    roe:            "Ver análise IA",
+    ultimo_div_valor:     meta.dividendsData?.cashDividends?.[0]?.rate || "N/A",
+    ultimo_div_ex:        meta.dividendsData?.cashDividends?.[0]?.lastDateOnWith || "N/A",
+    ultimo_div_pagamento: meta.dividendsData?.cashDividends?.[0]?.paymentDate || "N/A",
     historico_divs: "Consulte o RI da empresa",
   };
 }
