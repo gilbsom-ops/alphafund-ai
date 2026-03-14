@@ -8,15 +8,22 @@ const GROQ_MODEL = "llama-3.3-70b-versatile";
 async function fetchRealData(ticker) {
   const t = ticker.toUpperCase().replace(".SA", "");
   const BRAPI_TOKEN = process.env.REACT_APP_BRAPI_KEY;
-  
-  const url = `https://brapi.dev/api/quote/${t}?token=${BRAPI_TOKEN}&fundamental=true&dividends=true`;
-  
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Ticker "${t}" não encontrado na B3.`);
-  
-  const json = await res.json();
-  const q = json?.results?.[0];
-  if (!q) throw new Error(`Dados não disponíveis para "${t}".`);
+
+  const [brapiRes, fundRes] = await Promise.allSettled([
+    fetch(`https://brapi.dev/api/quote/${t}?token=${BRAPI_TOKEN}`),
+    fetch(`/api/fundamentus?ticker=${t}`)
+  ]);
+
+  const brapiJson = brapiRes.status === "fulfilled" && brapiRes.value.ok
+    ? await brapiRes.value.json() : null;
+
+  const fundJson = fundRes.status === "fulfilled" && fundRes.value.ok
+    ? await fundRes.value.json() : null;
+
+  const q = brapiJson?.results?.[0];
+  if (!q) throw new Error(`Ticker "${t}" não encontrado na B3.`);
+
+  q._fund = fundJson?.data || {};
 
   return { meta: q, ticker: t, yTicker: t };
 }
@@ -464,6 +471,7 @@ export default function StockAnalyzer() {
               <PriceCard label="Preço Teto (Graham)" value={data.preco_teto_graham} sub="Método Benjamin Graham" tag="IA"/>
               <PriceCard label="Upside / Downside" value={data.upside_downside} sub="Vs. preço justo estimado" col={upColor(data.upside_downside)} tag="IA"/>
             </div>
+
 
             {data.nota_sobre_preco && data.nota_sobre_preco !== "N/A" && (
               <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:10, padding:"12px 18px", marginBottom:16, display:"flex", gap:10 }}>
