@@ -37,8 +37,3 @@ function fetchHTML(url) {
     }).on("error", reject);
   });
 }
-```
-
-Depois no terminal instale o cheerio:
-```
-npm install cheerio
