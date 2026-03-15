@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 
 const GROQ_API_KEY = process.env.REACT_APP_GROQ_KEY;
-const GROQ_MODEL = "llama-3.1-8b-instant";
+const GROQ_MODEL = "llama-3.3-70b-versatile";
 
 async function fetchRealData(ticker) {
   const t = ticker.toUpperCase().replace(".SA", "");
@@ -52,7 +52,7 @@ REGRAS:
 - NÃO emita recomendação de compra, venda ou manutenção
 - NÃO forneça indicadores fundamentalistas (P/L, ROE, etc.) pois podem estar desatualizados
 - Seja descritivo, educacional e neutro
-- Para preço-alvo, use o consenso de mercado mais recente que você conhece, com ressalva que pode estar desatualizado
+- Para preço_teto_graham e preco_justo_dcf, SEMPRE forneça um valor estimado em reais. Ex: "R$ 45,00". NUNCA retorne N/A ou N/D.
 
 Responda APENAS em JSON válido:
 
