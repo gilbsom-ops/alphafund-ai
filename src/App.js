@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 
 const GROQ_API_KEY = process.env.REACT_APP_GROQ_KEY;
-const GROQ_MODEL = "llama3-8b-8192";
+const GROQ_MODEL = "llama-3.1-8b-instant";
 
 async function fetchRealData(ticker) {
   const t = ticker.toUpperCase().replace(".SA", "");
