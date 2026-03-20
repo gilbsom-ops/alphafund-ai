@@ -1,5 +1,5 @@
-import AdBanner from "./components/AdBanner";
 import { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 
 const GROQ_API_KEY = process.env.REACT_APP_GROQ_KEY;
 const GROQ_MODEL = "llama-3.3-70b-versatile";
@@ -7,14 +7,11 @@ const GROQ_MODEL = "llama-3.3-70b-versatile";
 async function fetchRealData(ticker) {
   const t = ticker.toUpperCase().replace(".SA", "");
   const BRAPI_TOKEN = process.env.REACT_APP_BRAPI_KEY;
-
   const res = await fetch(`https://brapi.dev/api/quote/${t}?token=${BRAPI_TOKEN}`);
   if (!res.ok) throw new Error(`Ticker "${t}" não encontrado na B3.`);
-
   const json = await res.json();
   const q = json?.results?.[0];
   if (!q) throw new Error(`Dados não disponíveis para "${t}".`);
-
   return { meta: q, ticker: t };
 }
 
@@ -115,6 +112,7 @@ const ScoreRing = ({ score, size = 80, sw = 7, label }) => {
   );
 };
 
+// AdBanner decorativo (placeholder visual enquanto AdSense não está ativo)
 const AdBanner = ({ slot, height = 90 }) => (
   <div style={{ width:"100%", height, background:"#0c1320", border:"1px dashed #1a2d3a", borderRadius:10, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", marginBottom:20, gap:3 }}>
     <span style={{ color:"#1e3040", fontSize:11, fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase" }}>Espaço Publicitário · Google AdSense</span>
@@ -241,6 +239,7 @@ export default function StockAnalyzer() {
         .abtn:hover:not(:disabled){background:#1ab88a!important;transform:translateY(-1px)}
         .abtn:active{transform:none!important}
         .chip:hover{border-color:#22d3a044!important;color:#22d3a0!important}
+        .navlink:hover{color:#22d3a0!important}
         @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
         .fu{animation:fadeUp .45s ease forwards}
@@ -257,14 +256,18 @@ export default function StockAnalyzer() {
               <div style={{ fontSize:10, color:C.muted, letterSpacing:"0.1em", textTransform:"uppercase" }}>Análise de Ações · Educacional</div>
             </div>
           </div>
-          <div style={{ display:"flex", alignItems:"center", gap:6,
-            background: dataSource==="live" ? "#052015" : "#1a1a08",
-            border:`1px solid ${dataSource==="live" ? C.green+"33" : "#fbbf2433"}`,
-            borderRadius:8, padding:"5px 12px" }}>
-            <span style={{ width:7, height:7, borderRadius:"50%", background: dataSource==="live" ? C.green : C.yellow, display:"inline-block", boxShadow:`0 0 8px ${dataSource==="live" ? C.green : C.yellow}` }}/>
-            <span style={{ color: dataSource==="live" ? C.green : C.yellow, fontSize:11, fontWeight:700 }}>
-              {dataSource==="live" ? "Cotação ao vivo · B3 via Brapi" : dataSource==="ia-only" ? "Análise por IA · sem cotação ao vivo" : "Pronto para analisar"}
-            </span>
+          <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap" }}>
+            <Link to="/como-analisar-acoes" className="navlink" style={{ color:C.muted, fontSize:12, fontWeight:700, textDecoration:"none", transition:"color .2s" }}>📚 Como analisar ações</Link>
+            <Link to="/sobre" className="navlink" style={{ color:C.muted, fontSize:12, fontWeight:700, textDecoration:"none", transition:"color .2s" }}>Sobre</Link>
+            <div style={{ display:"flex", alignItems:"center", gap:6,
+              background: dataSource==="live" ? "#052015" : "#1a1a08",
+              border:`1px solid ${dataSource==="live" ? C.green+"33" : "#fbbf2433"}`,
+              borderRadius:8, padding:"5px 12px" }}>
+              <span style={{ width:7, height:7, borderRadius:"50%", background: dataSource==="live" ? C.green : C.yellow, display:"inline-block", boxShadow:`0 0 8px ${dataSource==="live" ? C.green : C.yellow}` }}/>
+              <span style={{ color: dataSource==="live" ? C.green : C.yellow, fontSize:11, fontWeight:700 }}>
+                {dataSource==="live" ? "Cotação ao vivo · B3 via Brapi" : dataSource==="ia-only" ? "Análise por IA · sem cotação ao vivo" : "Pronto para analisar"}
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -313,8 +316,6 @@ export default function StockAnalyzer() {
 
         {data && (
           <div className="fu">
-
-            {/* Company header */}
             <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:18, padding:"24px 28px", marginBottom:16 }}>
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:16 }}>
                 <div style={{ flex:1, minWidth:200 }}>
@@ -330,7 +331,6 @@ export default function StockAnalyzer() {
               </div>
             </div>
 
-            {/* Price bar */}
             <div style={{ background:"#052015", border:`1px solid ${C.green}33`, borderRadius:14, padding:"16px 22px", marginBottom:16 }}>
               <div style={{ display:"flex", alignItems:"center", flexWrap:"wrap", gap:20 }}>
                 <div>
@@ -354,7 +354,6 @@ export default function StockAnalyzer() {
               </div>
             </div>
 
-            {/* Targets */}
             <div style={{ display:"flex", gap:10, flexWrap:"wrap", marginBottom:12 }}>
               <PriceCard label="Preço Justo (DCF)" value={data.preco_justo_dcf} sub="Estimativa IA — pode estar desatualizada" tag="IA"/>
               <PriceCard label="Preço Teto (Graham)" value={data.preco_teto_graham} sub="Estimativa IA — pode estar desatualizada" tag="IA"/>
@@ -370,7 +369,6 @@ export default function StockAnalyzer() {
 
             <AdBanner slot="mid" height={96}/>
 
-            {/* Sobre a empresa */}
             {data.sobre_empresa && (
               <>
                 <InfoCard title="Histórico da Empresa" icon="🏛️" content={data.sobre_empresa.historia}/>
@@ -380,7 +378,6 @@ export default function StockAnalyzer() {
               </>
             )}
 
-            {/* Macro */}
             {data.macro_setor && (
               <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, padding:"18px 20px", marginBottom:10 }}>
                 <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:12 }}>
@@ -399,7 +396,6 @@ export default function StockAnalyzer() {
               </div>
             )}
 
-            {/* Pontos */}
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:10 }}>
               <div style={{ background:C.card, border:"1px solid #f8717122", borderRadius:14, padding:20 }}>
                 <div style={{ color:"#fca5a5", fontWeight:800, fontSize:12, marginBottom:14 }}>⚠️ PONTOS DE ATENÇÃO</div>
@@ -421,20 +417,18 @@ export default function StockAnalyzer() {
               </div>
             </div>
 
-            {/* Conclusão */}
             <div style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:14, padding:24, marginBottom:14 }}>
               <div style={{ color:C.text, fontWeight:800, fontSize:13, marginBottom:14 }}>📋 SÍNTESE</div>
               <p style={{ color:C.sub, fontSize:14, lineHeight:1.85 }}>{data.conclusao}</p>
             </div>
 
-            {/* Disclaimer */}
             <div style={{ background:"#0c1422", border:"1px solid #fbbf2444", borderRadius:14, padding:"20px 24px", marginBottom:16 }}>
               <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14 }}>
                 <span>⚖️</span>
                 <span style={{ color:"#fbbf24", fontWeight:800, fontSize:12, letterSpacing:"0.1em", textTransform:"uppercase" }}>Aviso Legal</span>
               </div>
               <p style={{ color:"#94a3b8", fontSize:12, lineHeight:1.9, marginBottom:10 }}>
-                A <strong style={{ color:"#cbd5e1" }}>cotação em tempo real</strong> é fornecida via <strong style={{ color:"#cbd5e1" }}>Brapi/B3</strong> e pode ter pequeno atraso. A <strong style={{ color:"#cbd5e1" }}>análise descritiva</strong> é gerada por inteligência artificial com caráter <strong style={{ color:"#cbd5e1" }}>exclusivamente educacional e informativo</strong>. Estimativas de preço-alvo são baseadas em dados históricos e <strong style={{ color:"#cbd5e1" }}>podem estar desatualizadas</strong>.
+                A <strong style={{ color:"#cbd5e1" }}>cotação em tempo real</strong> é fornecida via <strong style={{ color:"#cbd5e1" }}>Brapi/B3</strong> e pode ter pequeno atraso. A <strong style={{ color:"#cbd5e1" }}>análise descritiva</strong> é gerada por inteligência artificial com caráter <strong style={{ color:"#cbd5e1" }}>exclusivamente educacional e informativo</strong>.
               </p>
               <p style={{ color:"#94a3b8", fontSize:12, lineHeight:1.9, marginBottom:10 }}>
                 Este conteúdo <strong style={{ color:"#cbd5e1" }}>não constitui recomendação de compra, venda ou manutenção</strong> de qualquer ativo financeiro. A emissão de recomendações é atividade regulada, privativa de <strong style={{ color:"#cbd5e1" }}>Analistas credenciados (CNPI)</strong>, conforme <strong style={{ color:"#cbd5e1" }}>Resolução CVM nº 20/2021</strong>.
@@ -459,12 +453,24 @@ export default function StockAnalyzer() {
                 </button>
               ))}
             </div>
+            <div style={{ marginTop:24, display:"flex", justifyContent:"center", gap:16, flexWrap:"wrap" }}>
+              <Link to="/como-analisar-acoes" style={{ color:C.green, fontSize:13, fontWeight:700, textDecoration:"none", background:"#052015", border:"1px solid #22d3a033", borderRadius:8, padding:"8px 18px" }}>
+                📚 Como analisar ações antes de comprar
+              </Link>
+            </div>
           </div>
         )}
       </div>
 
       <div style={{ borderTop:`1px solid ${C.border}`, padding:"18px 20px", textAlign:"center" }}>
-        <p style={{ color:C.muted, fontSize:11 }}>AlphaFund AI · Análise Educacional · Não credenciado pela CVM · Não emite recomendações de investimento</p>
+        <p style={{ color:C.muted, fontSize:11 }}>
+          AlphaFund AI · Análise Educacional · Não credenciado pela CVM ·{" "}
+          <Link to="/sobre" style={{ color:C.muted }}>Sobre</Link> ·{" "}
+          <Link to="/como-analisar-acoes" style={{ color:C.muted }}>Como Analisar Ações</Link> ·{" "}
+          <Link to="/politica-de-privacidade" style={{ color:C.muted }}>Privacidade</Link> ·{" "}
+          <Link to="/termos-de-uso" style={{ color:C.muted }}>Termos</Link> ·{" "}
+          <Link to="/contato" style={{ color:C.muted }}>Contato</Link>
+        </p>
       </div>
     </div>
   );
