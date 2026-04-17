@@ -9,7 +9,9 @@ import PoliticaDePrivacidade from "./pages/PoliticaDePrivacidade";
 import TermosDeUso from "./pages/TermosDeUso";
 import Contato from "./pages/Contato";
 import ComoAnalisarAcoes from "./pages/ComoAnalisarAcoes";
-
+import ChecklistSwingTrade from "./pages/ChecklistSwingTrade";
+import IndicadoresTecnicos from "./pages/IndicadoresTecnicos";
+import GerenciamentoRisco from "./pages/GerenciamentoRisco";
 export default function App() {
   return (
     <BrowserRouter>
@@ -20,6 +22,9 @@ export default function App() {
         <Route path="/termos-de-uso"            element={<TermosDeUso />} />
         <Route path="/contato"                  element={<Contato />} />
         <Route path="/como-analisar-acoes"      element={<ComoAnalisarAcoes />} />
+        <Route path="/checklist" element={<ChecklistSwingTrade />} />
+        <Route path="/indicadores" element={<IndicadoresTecnicos />} />
+        <Route path="/gerenciamento-de-risco" element={<GerenciamentoRisco />} />
         <Route path="*"                         element={<NotFound />} />
       </Routes>
     </BrowserRouter>
