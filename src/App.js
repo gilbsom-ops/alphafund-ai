@@ -27,6 +27,14 @@ export default function App() {
         <Route path="/gerenciamento-de-risco" element={<GerenciamentoRisco />} />
         <Route path="*"                         element={<NotFound />} />
       </Routes>
+      <footer style={{ marginTop: '50px', padding: '20px', textAlign: 'center', borderTop: '1px solid #333', background: '#0b0e14' }}>
+        <p style={{ color: '#aaa', fontSize: '14px', marginBottom: '10px' }}>Conteúdo Educativo AlphaFund AI:</p>
+        <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="/checklist" style={{ color: '#00ffa3', textDecoration: 'none', fontSize: '14px' }}>Checklist Swing Trade</a>
+          <a href="/indicadores" style={{ color: '#00ffa3', textDecoration: 'none', fontSize: '14px' }}>Indicadores Técnicos</a>
+          <a href="/gerenciamento-de-risco" style={{ color: '#00ffa3', textDecoration: 'none', fontSize: '14px' }}>Gestão de Risco</a>
+        </div>
+      </footer>
     </BrowserRouter>
   );
 }
