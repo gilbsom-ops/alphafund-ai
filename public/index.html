@@ -6,31 +6,169 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0a0f1a" />
-
-    <!-- SEO: Título e descrição reais (obrigatório para AdSense) -->
     <title>AlphaFund AI — Análise de Ações da B3 com Cotação em Tempo Real</title>
     <meta name="description" content="Analise ações da B3 com cotação em tempo real e insights educacionais gerados por IA sobre empresas, setores e contexto de mercado. Ferramenta gratuita, sem recomendações de investimento." />
-    <meta name="keywords" content="análise de ações, B3, cotação em tempo real, PETR4, VALE3, WEGE3, ações brasileiras, educação financeira, fundamentalista" />
+    <meta name="keywords" content="análise de ações, B3, cotação em tempo real, PETR4, VALE3, WEGE3, ações brasileiras, educação financeira, fundamentalista, P/L, dividendos, ROE, valuation" />
     <meta name="author" content="AlphaFund AI" />
     <meta name="robots" content="index, follow" />
-
-    <!-- Open Graph (compartilhamento em redes sociais) -->
     <meta property="og:title" content="AlphaFund AI — Análise de Ações da B3" />
     <meta property="og:description" content="Cotação em tempo real e análise educacional de ações da B3 com inteligência artificial." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://alphafund-ai-psi.vercel.app" />
-
-    <!-- Google AdSense (código real) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6830111889182944"
-      crossorigin="anonymous"></script>
-
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6830111889182944" crossorigin="anonymous"></script>
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <style>
+      #static-edu {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #0a0f1a;
+        color: #e8f4ff;
+        padding: 40px 20px 60px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      #static-edu h1 { font-size: 26px; font-weight: 800; text-align: center; margin-bottom: 6px; }
+      #static-edu .sub { text-align: center; color: #6b8499; font-size: 12px; margin-bottom: 36px; letter-spacing: 0.07em; text-transform: uppercase; }
+      #static-edu h2 { font-size: 17px; font-weight: 700; color: #22d3a0; margin: 32px 0 12px; border-bottom: 1px solid #1f2d40; padding-bottom: 8px; }
+      #static-edu p  { font-size: 13px; line-height: 1.85; color: #a8bfd4; margin: 0 0 12px; }
+      #static-edu ul { padding-left: 20px; margin: 0 0 12px; }
+      #static-edu li { font-size: 13px; line-height: 2.1; color: #a8bfd4; }
+      #static-edu .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 20px; }
+      #static-edu .card { background: #111827; border: 1px solid #1f2d40; border-radius: 12px; padding: 18px; }
+      #static-edu .card-title { font-size: 12px; font-weight: 800; color: #22d3a0; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.07em; }
+      #static-edu table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+      #static-edu th { background: #111827; color: #22d3a0; padding: 10px 14px; text-align: left; font-size: 12px; }
+      #static-edu td { padding: 10px 14px; border-bottom: 1px solid #1a2535; color: #a8bfd4; vertical-align: top; }
+      #static-edu .disclaimer { background: #0c1422; border: 1px solid #fbbf2444; border-radius: 12px; padding: 20px; margin-top: 32px; font-size: 12px; color: #94a3b8; line-height: 1.85; }
+      #static-edu strong { color: #e8f4ff; }
+    </style>
   </head>
   <body>
+
     <noscript>
-      <p>AlphaFund AI — Análise educacional de ações da B3. Você precisa habilitar o JavaScript para usar esta ferramenta.</p>
+      <div id="static-edu">
+
+        <h1>📊 AlphaFund AI</h1>
+        <p class="sub">Análise Fundamentalista Educacional · Ações da B3 · Cotação em Tempo Real</p>
+
+        <p>O <strong>AlphaFund AI</strong> é uma ferramenta gratuita de análise educacional de ações listadas na <strong>B3 (Bolsa de Valores do Brasil)</strong>. Combinamos cotações em tempo real com análise fundamentalista gerada por inteligência artificial para ajudar investidores a compreender empresas com profundidade — sem emitir recomendações de compra ou venda.</p>
+
+        <h2>📈 O que é Análise Fundamentalista?</h2>
+        <p>A análise fundamentalista avalia o valor intrínseco de uma empresa com base em seus dados financeiros, posição competitiva, setor e contexto macroeconômico. Diferente da análise técnica, que estuda gráficos de preço, a análise fundamentalista busca responder: <strong>essa empresa vale o que o mercado está pagando?</strong></p>
+        <p>Investidores como Warren Buffett e Benjamin Graham popularizaram essa abordagem, que considera indicadores como P/L, ROE, margem líquida e endividamento para tomar decisões de longo prazo baseadas no valor real do negócio, e não na especulação de curto prazo.</p>
+        <p>No Brasil, a análise fundamentalista é especialmente relevante por conta da volatilidade macroeconômica, variações da taxa Selic, inflação medida pelo IPCA e o impacto do câmbio nas empresas exportadoras listadas na B3.</p>
+
+        <h2>📊 Indicadores Analisados pelo AlphaFund AI</h2>
+        <div class="grid">
+          <div class="card">
+            <div class="card-title">💎 Valuation</div>
+            <p><strong>P/L (Preço/Lucro):</strong> Quanto o mercado paga por cada real de lucro. P/L abaixo da média do setor pode indicar subvalorização.</p>
+            <p><strong>P/VP:</strong> Compara preço de mercado com o patrimônio líquido. P/VP abaixo de 1 indica que a empresa vale menos do que seu patrimônio contábil.</p>
+            <p><strong>EV/EBITDA:</strong> Relaciona o valor total da empresa com sua geração de caixa operacional. Muito usado para comparar empresas do mesmo setor.</p>
+            <p><strong>Preço Teto (Graham):</strong> Preço máximo calculado pela fórmula de Benjamin Graham para compra com margem de segurança.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🏦 Dividendos</div>
+            <p><strong>Dividend Yield (DY):</strong> Percentual do preço da ação pago em dividendos ao ano. Empresas com DY consistente acima de 6% são consideradas boas pagadoras.</p>
+            <p><strong>Payout Ratio:</strong> Parcela do lucro distribuída como dividendo. Payout muito alto pode ser insustentável no longo prazo.</p>
+            <p><strong>Histórico de dividendos:</strong> Consistência dos pagamentos ao longo dos anos é um forte indicador de solidez financeira.</p>
+            <p><strong>Próximo dividendo estimado:</strong> Projeção baseada no histórico e política de distribuição da empresa.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">💰 Rentabilidade</div>
+            <p><strong>ROE:</strong> Retorno sobre o Patrimônio. Mede eficiência no uso do capital próprio. ROE acima de 15% é considerado bom na maioria dos setores.</p>
+            <p><strong>ROIC:</strong> Retorno sobre o Capital Investido total, incluindo dívida. Indica se a empresa cria ou destrói valor para acionistas.</p>
+            <p><strong>Margem Líquida:</strong> Percentual da receita que se converte em lucro líquido após todos os custos, despesas e impostos.</p>
+            <p><strong>Margem EBITDA:</strong> Eficiência operacional antes de itens não caixa e encargos financeiros.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">⛓️ Endividamento</div>
+            <p><strong>Dívida Líquida/EBITDA:</strong> Em quantos anos a empresa pagaria sua dívida com geração de caixa. Acima de 3x merece atenção redobrada.</p>
+            <p><strong>Dívida/PL:</strong> Alavancagem em relação ao patrimônio. Empresas muito alavancadas são mais sensíveis a ciclos de juros altos.</p>
+            <p><strong>Cobertura de Juros:</strong> Capacidade de pagar juros da dívida com resultado operacional. Abaixo de 1,5x é sinal de risco financeiro.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">📈 Crescimento</div>
+            <p><strong>CAGR Receita 3 anos:</strong> Taxa de crescimento anual composta da receita. Empresas com CAGR acima de 10% são consideradas em expansão acelerada.</p>
+            <p><strong>CAGR Lucro 3 anos:</strong> Crescimento do lucro líquido. Crescimento do lucro acima da receita indica melhora de eficiência operacional.</p>
+            <p><strong>Perspectivas setoriais:</strong> Contexto do setor e potencial de expansão do negócio nos próximos anos.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🌐 Contexto Macro</div>
+            <p><strong>Impacto da Selic:</strong> Empresas alavancadas sofrem com juros altos; bancos e utilities têm dinâmicas distintas nesse cenário.</p>
+            <p><strong>Inflação (IPCA):</strong> Setores como energia e saneamento têm receitas indexadas ao IPCA, protegendo margens da inflação.</p>
+            <p><strong>Câmbio:</strong> Exportadoras (mineração, agro, petróleo) se beneficiam do dólar alto; importadoras têm margens pressionadas.</p>
+            <p><strong>Ciclo econômico:</strong> Setores cíclicos (varejo, construção) oscilam mais com o PIB do que os defensivos (energia, saúde, saneamento).</p>
+          </div>
+        </div>
+
+        <h2>🏢 Ações da B3 Analisadas</h2>
+        <p>O AlphaFund AI cobre todos os principais tickers da bolsa brasileira. Exemplos por setor:</p>
+        <div class="grid">
+          <div class="card">
+            <ul>
+              <li>🛢️ <strong>Petróleo e Gás:</strong> PETR4, PETR3, PRIO3, RRRP3</li>
+              <li>⛏️ <strong>Mineração e Siderurgia:</strong> VALE3, CSNA3, GGBR4, USIM5</li>
+              <li>🏦 <strong>Bancos e Financeiras:</strong> ITUB4, BBDC4, BBAS3, SANB11</li>
+              <li>⚡ <strong>Energia Elétrica:</strong> EGIE3, TAEE11, CPFE3, ENGI11</li>
+              <li>🏭 <strong>Indústria:</strong> WEGE3, EMBR3, ROMI3</li>
+            </ul>
+          </div>
+          <div class="card">
+            <ul>
+              <li>🏥 <strong>Saúde:</strong> FLRY3, RDOR3, HAPV3, PARD3</li>
+              <li>🛒 <strong>Varejo e Consumo:</strong> MGLU3, LREN3, ABEV3, ASAI3</li>
+              <li>📡 <strong>Telecomunicações:</strong> VIVT3, TIMS3</li>
+              <li>🏗️ <strong>Construção Civil:</strong> CYRE3, MRVE3, EVEN3, DIRR3</li>
+              <li>💧 <strong>Saneamento:</strong> SAPR11, CSMG3, SBSP3</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2>📖 Glossário de Análise Fundamentalista</h2>
+        <table>
+          <thead>
+            <tr><th>Termo</th><th>Definição</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>P/L</strong></td><td>Preço dividido pelo lucro por ação. Indica quantos anos levaria para recuperar o investimento com os lucros atuais da empresa.</td></tr>
+            <tr><td><strong>P/VP</strong></td><td>Preço de mercado dividido pelo valor patrimonial por ação. Abaixo de 1 pode indicar que o mercado subvaloriza a empresa.</td></tr>
+            <tr><td><strong>EBITDA</strong></td><td>Lucro antes de juros, impostos, depreciação e amortização. Principal medida de geração de caixa operacional de uma empresa.</td></tr>
+            <tr><td><strong>ROE</strong></td><td>Retorno sobre o Patrimônio Líquido. Mede o quanto a empresa gera de lucro para cada real de capital próprio dos acionistas.</td></tr>
+            <tr><td><strong>ROIC</strong></td><td>Retorno sobre o Capital Investido. Considera tanto capital próprio quanto dívida, sendo mais completo que o ROE isolado.</td></tr>
+            <tr><td><strong>Dividend Yield</strong></td><td>Dividendo anual pago por ação dividido pelo preço atual da ação. Representa o retorno percentual em proventos.</td></tr>
+            <tr><td><strong>Payout Ratio</strong></td><td>Percentual do lucro líquido distribuído como dividendos. Payout de 80% significa que 80% do lucro vai para os acionistas.</td></tr>
+            <tr><td><strong>Free Float</strong></td><td>Percentual das ações disponíveis para negociação no mercado aberto, excluindo o bloco controlador e ações em tesouraria.</td></tr>
+            <tr><td><strong>Market Cap</strong></td><td>Valor de mercado total da empresa: preço da ação multiplicado pelo número total de ações emitidas.</td></tr>
+            <tr><td><strong>EV (Enterprise Value)</strong></td><td>Valor total da empresa considerando dívida líquida. Mais preciso que o Market Cap para comparações entre empresas.</td></tr>
+            <tr><td><strong>Tag Along</strong></td><td>Direito dos acionistas minoritários de vender suas ações pelo mesmo preço em caso de mudança de controle acionário.</td></tr>
+            <tr><td><strong>JCP</strong></td><td>Juros sobre Capital Próprio — forma de distribuição de proventos com tratamento fiscal diferenciado, comum entre empresas brasileiras.</td></tr>
+          </tbody>
+        </table>
+
+        <h2>🎯 Como Usar o AlphaFund AI</h2>
+        <p>O uso é simples: basta digitar o ticker da ação (ex: PETR4, VALE3, WEGE3) no campo de busca e clicar em <strong>Analisar</strong>. A ferramenta irá:</p>
+        <ul>
+          <li>Buscar a cotação em tempo real via Yahoo Finance</li>
+          <li>Gerar análise fundamentalista completa com inteligência artificial</li>
+          <li>Calcular scores de valuation, dividendos, rentabilidade, endividamento, crescimento e macro</li>
+          <li>Apresentar pontos de atenção e destaques positivos da empresa</li>
+          <li>Exibir calendário de dividendos e aviso legal completo</li>
+        </ul>
+        <p>A ferramenta é <strong>100% gratuita</strong> e não exige nenhum cadastro. Todas as análises têm caráter exclusivamente educacional.</p>
+
+        <div class="disclaimer">
+          <strong style="color:#fbbf24;">⚖️ Aviso Legal</strong><br><br>
+          As informações apresentadas combinam dados de mercado reais (cotações via Yahoo Finance) com análise gerada por inteligência artificial, com caráter <strong>exclusivamente educacional e informativo</strong>. Este conteúdo <strong>não constitui recomendação de compra, venda ou manutenção</strong> de qualquer ativo financeiro.<br><br>
+          A emissão de recomendações de investimento é atividade regulada, privativa de <strong>Analistas de Valores Mobiliários (CNPI)</strong>, credenciados pela CVM. Este serviço não possui tal credenciamento. Consulte sempre um profissional habilitado antes de investir.<br><br>
+          Para decisões de investimento, consulte fontes oficiais como <strong>B3, CVM</strong> e o <strong>RI (Relações com Investidores)</strong> de cada empresa.
+        </div>
+
+      </div>
     </noscript>
+
+    <!-- O React monta aqui — o noscript acima é ignorado quando JS está ativo -->
     <div id="root"></div>
+
   </body>
 </html>
